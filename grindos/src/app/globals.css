@@ -1,0 +1,89 @@
+@import "tailwindcss";
+
+:root {
+  --background: #0b0d12;
+  --foreground: #e6e9f0;
+  --muted: #9aa3b2;
+  --card: rgba(18, 22, 30, 0.7);
+  --border: rgba(148, 156, 172, 0.2);
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-muted: var(--muted);
+  --color-card: var(--card);
+  --color-border: var(--border);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+* {
+  border-color: var(--border);
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-geist-sans), Arial, Helvetica, sans-serif;
+}
+
+.glass {
+  background: linear-gradient(
+    135deg,
+    rgba(26, 31, 42, 0.7),
+    rgba(16, 20, 28, 0.55)
+  );
+  border: 1px solid rgba(148, 163, 184, 0.2);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+.grid-bg {
+  background-image: radial-gradient(
+      circle at 1px 1px,
+      rgba(148, 163, 184, 0.08) 1px,
+      transparent 0
+    ),
+    radial-gradient(
+      circle at 15% 10%,
+      rgba(87, 96, 120, 0.1),
+      transparent 34%
+    ),
+    radial-gradient(
+      circle at 85% 18%,
+      rgba(80, 97, 128, 0.08),
+      transparent 38%
+    ),
+    linear-gradient(
+      to bottom,
+      rgba(8, 11, 20, 0.97),
+      rgba(8, 11, 20, 0.92) 55%,
+      rgba(8, 11, 20, 1)
+    );
+  background-size: 28px 28px, 100% 100%, 100% 100%, 100% 100%;
+}
+
+.text-glow {
+  text-shadow: 0 0 16px rgba(115, 126, 156, 0.2);
+}
+
+.gradient-border {
+  position: relative;
+}
+
+.gradient-border::before {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  background: linear-gradient(
+    120deg,
+    rgba(105, 116, 148, 0.45),
+    rgba(90, 106, 136, 0.35),
+    rgba(80, 94, 120, 0.3)
+  );
+  z-index: -1;
+  filter: blur(8px);
+  opacity: 0.55;
+}
