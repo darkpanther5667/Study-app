@@ -1,6 +1,7 @@
 'use client';
 
-import { FormEvent, useState } from 'react';
+import { FormEvent, useState, useEffect } from 'react';
+import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import { Loader2 } from 'lucide-react';
 import { signInWithEmailAndPassword, signInWithPopup, GoogleAuthProvider } from 'firebase/auth';
@@ -13,6 +14,15 @@ export default function SignInPage() {
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState<null | 'google' | 'email'>(null);
   const [message, setMessage] = useState<string | null>(null);
+  const searchParams = useSearchParams();
+  const redirect = searchParams.get('redirect') || '/home';
+
+  useEffect(() => {
+    // Check if already logged in
+    if (auth?.currentUser) {
+      window.location.href = redirect;
+    }
+  }, [redirect]);
 
   const signInWithGoogle = async () => {
     if (!auth) {
@@ -23,7 +33,7 @@ export default function SignInPage() {
     try {
       const provider = new GoogleAuthProvider();
       await signInWithPopup(auth, provider);
-      window.location.href = '/home';
+      window.location.href = redirect;
     } catch (error: unknown) {
       const err = error as { message?: string };
       setMessage(err.message || 'Google sign-in failed');
@@ -40,7 +50,7 @@ export default function SignInPage() {
     setLoading('email');
     try {
       await signInWithEmailAndPassword(auth, email, password);
-      window.location.href = '/home';
+      window.location.href = redirect;
     } catch (error: unknown) {
       const err = error as { code?: string };
       if (err.code === 'auth/invalid-credential') {

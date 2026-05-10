@@ -40,7 +40,9 @@
       "Bash(Remove-Item -Recurse -Force \"E:\\\\Study app\\\\src\\\\lib\\\\supabase\" -ErrorAction SilentlyContinue)",
       "Bash(Remove-Item -Force \"E:\\\\Study app\\\\src\\\\app\\\\auth\\\\callback\\\\route.ts\" -ErrorAction SilentlyContinue)",
       "Bash(Write-Host \"Supabase files removed\")",
-      "Bash(npx tsc *)"
+      "Bash(npx tsc *)",
+      "Bash(git checkout *)",
+      "PowerShell(Join-Path *)"
     ]
   }
 }

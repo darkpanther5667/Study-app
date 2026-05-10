@@ -1,6 +1,7 @@
 'use client';
 
-import { FormEvent, useState } from 'react';
+import { FormEvent, useState, useEffect } from 'react';
+import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import { Loader2 } from 'lucide-react';
 import { createUserWithEmailAndPassword, signInWithPopup, GoogleAuthProvider, updateProfile } from 'firebase/auth';
@@ -14,6 +15,14 @@ export default function SignUpPage() {
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState<null | 'google' | 'email'>(null);
   const [message, setMessage] = useState<string | null>(null);
+  const searchParams = useSearchParams();
+  const redirect = searchParams.get('redirect') || '/home';
+
+  useEffect(() => {
+    if (auth?.currentUser) {
+      window.location.href = redirect;
+    }
+  }, [redirect]);
 
   const signUpWithGoogle = async () => {
     if (!auth) {
@@ -24,7 +33,7 @@ export default function SignUpPage() {
     try {
       const provider = new GoogleAuthProvider();
       await signInWithPopup(auth, provider);
-      window.location.href = '/home';
+      window.location.href = redirect;
     } catch (error: unknown) {
       const err = error as { message?: string };
       setMessage(err.message || 'Google sign-up failed');
@@ -46,7 +55,7 @@ export default function SignUpPage() {
     try {
       const result = await createUserWithEmailAndPassword(auth, email, password);
       await updateProfile(result.user, { displayName: name });
-      window.location.href = '/home';
+      window.location.href = redirect;
     } catch (error: unknown) {
       const err = error as { code?: string };
       if (err.code === 'auth/email-already-in-use') {
