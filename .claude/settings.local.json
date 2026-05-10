@@ -23,7 +23,18 @@
       "Bash(npm search *)",
       "Bash(git commit -m 'fix: Remove CSS import warning, use next/font for Google Fonts *)",
       "Bash(mkdir -p home doubt-snap battle/lobby battle/room/\\\\[roomId\\\\] vault focus radar explore profile)",
-      "Bash(cp \"\\(grasp\\)/battle/room/[roomId]/page.tsx\" battle/room/\\\\[roomId\\\\]/)"
+      "Bash(cp \"\\(grasp\\)/battle/room/[roomId]/page.tsx\" battle/room/\\\\[roomId\\\\]/)",
+      "Bash(git commit -m 'refactor: Move pages out of route group, simplify routing *)",
+      "Bash(git commit -m 'fix: Add BottomNav via AppProviders component *)",
+      "Bash(node node_modules/next/dist/bin/next dev --port 3000)",
+      "Bash(curl -s http://localhost:3000)",
+      "Bash(curl -s http://localhost:3000/home)",
+      "Bash(curl *)",
+      "Bash(git commit -m 'fix: Handle missing Supabase env vars gracefully *)",
+      "Bash(git commit -m 'fix: Use proxy.ts for Next.js 16 middleware *)",
+      "Bash(mv grindos/* .)",
+      "Bash(mv grindos/.* .)",
+      "Bash(rmdir grindos *)"
     ]
   }
 }
