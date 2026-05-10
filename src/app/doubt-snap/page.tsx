@@ -7,7 +7,6 @@ import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { pageAnim } from '@/lib/animations';
-import { createSupabaseBrowserClient } from '@/lib/supabase/browser';
 
 type Step = 'capture' | 'preview' | 'result';
 
@@ -35,13 +34,9 @@ export default function DoubtSnapPage() {
     setStep('result');
   };
 
-  const handleSaveFlashcard = async () => {
-    const supabase = createSupabaseBrowserClient();
-    if (!supabase) return;
-    const { data: { user } } = await supabase.auth.getUser();
-    if (!user) return;
-    await supabase.from('flashcards').insert({ user_id: user.id, subject: 'Maths', question: 'Sample', answer: 'Answer', ease_factor: 2.5, interval: 1, next_review_date: new Date().toISOString(), source: 'doubt_snap' });
-    alert('Flashcard saved!');
+  const handleSaveFlashcard = () => {
+    // TODO: Save to Firebase Firestore
+    alert('Flashcard saved! (Firestore coming soon)');
   };
 
   return (

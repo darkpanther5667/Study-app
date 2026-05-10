@@ -34,7 +34,13 @@
       "Bash(git commit -m 'fix: Use proxy.ts for Next.js 16 middleware *)",
       "Bash(mv grindos/* .)",
       "Bash(mv grindos/.* .)",
-      "Bash(rmdir grindos *)"
+      "Bash(rmdir grindos *)",
+      "Bash(git commit -m 'fix: Move all files from grindos subfolder to root *)",
+      "Bash(\"C:\\\\nvm4w\\\\nodejs\\\\node.exe\" \"E:\\\\Study app\\\\node_modules\\\\vercel\\\\bin\\\\vercel\" deploy --prod)",
+      "Bash(Remove-Item -Recurse -Force \"E:\\\\Study app\\\\src\\\\lib\\\\supabase\" -ErrorAction SilentlyContinue)",
+      "Bash(Remove-Item -Force \"E:\\\\Study app\\\\src\\\\app\\\\auth\\\\callback\\\\route.ts\" -ErrorAction SilentlyContinue)",
+      "Bash(Write-Host \"Supabase files removed\")",
+      "Bash(npx tsc *)"
     ]
   }
 }

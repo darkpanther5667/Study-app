@@ -8,7 +8,6 @@ import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { pageAnim } from '@/lib/animations';
 import { generateRoomCode } from '@/lib/sm2';
-import { createSupabaseBrowserClient } from '@/lib/supabase/browser';
 
 const mockFriends = [{ id: '1', name: 'Amit', online: true }, { id: '2', name: 'Priya', online: true }, { id: '3', name: 'Raj', online: false }];
 const mockRecent = [{ id: '1', opponent: 'Amit', result: 'W' as const, date: '2h ago', xp: 50 }, { id: '2', opponent: 'Priya', result: 'L' as const, date: '1d ago', xp: 0 }];
@@ -16,14 +15,10 @@ const mockRecent = [{ id: '1', opponent: 'Amit', result: 'W' as const, date: '2h
 export default function BattleLobbyPage() {
   const [joinCode, setJoinCode] = useState('');
   const router = useRouter();
-  const supabase = createSupabaseBrowserClient();
 
-  const handleCreateBattle = async () => {
+  const handleCreateBattle = () => {
     const code = generateRoomCode();
-    if (supabase) {
-      const { data: { user } } = await supabase.auth.getUser();
-      if (user) await supabase.from('battle_rooms').insert({ room_code: code, created_by: user.id, status: 'waiting', topic: null });
-    }
+    // TODO: Save to Firebase Firestore
     router.push(`/battle/room/${code}`);
   };
 

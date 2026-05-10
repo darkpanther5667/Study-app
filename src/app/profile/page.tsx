@@ -1,16 +1,14 @@
 'use client';
 
-import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { motion } from 'framer-motion';
 import { Moon, Bell, LogOut, Trophy, Layers, Clock, Star } from 'lucide-react';
-import type { User } from '@supabase/supabase-js';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { pageAnim } from '@/lib/animations';
 import { useUIStore } from '@/store/uiStore';
-import { createSupabaseBrowserClient } from '@/lib/supabase/browser';
+import { useAuth } from '@/context/AuthContext';
 
 const achievements = [
   { id: '1', title: 'First Blood', icon: '⚔️', unlocked: true },
@@ -23,16 +21,17 @@ const achievements = [
 const stats = { totalXp: 2450, battlesWon: 23, flashcardsMastered: 45, studyHours: 67 };
 
 export default function ProfilePage() {
-  const [user, setUser] = useState<User | null>(null);
   const router = useRouter();
-  const supabase = createSupabaseBrowserClient();
+  const { user, signOut } = useAuth();
   const { theme, toggleTheme } = useUIStore();
 
-  useEffect(() => { if (supabase) { const load = async () => { const { data } = await supabase.auth.getUser(); setUser(data.user ?? null); }; void load(); } }, []);
+  const handleLogout = async () => {
+    await signOut();
+    router.push('/');
+  };
 
-  const handleLogout = async () => { if (supabase) await supabase.auth.signOut(); router.push('/'); };
-  const initials = user?.email?.charAt(0).toUpperCase() || 'U';
-  const name = user?.email?.split('@')[0] || 'Student';
+  const initials = user?.displayName?.charAt(0) || user?.email?.charAt(0).toUpperCase() || 'U';
+  const name = user?.displayName || user?.email?.split('@')[0] || 'Student';
 
   return (
     <motion.div variants={pageAnim} initial="initial" animate="animate" className="min-h-screen bg-[var(--bg-app)] pb-20">
@@ -41,7 +40,7 @@ export default function ProfilePage() {
         <Card variant="grasp" className="p-6">
           <div className="flex items-center gap-4">
             <div className="w-20 h-20 rounded-full bg-[var(--brand)] flex items-center justify-center text-white text-2xl font-bold">{initials}</div>
-            <div><h2 className="text-xl font-bold text-[var(--text-1)]">{name}</h2><p className="text-[var(--text-3)] text-sm">student@example.com</p></div>
+            <div><h2 className="text-xl font-bold text-[var(--text-1)]">{name}</h2><p className="text-[var(--text-3)] text-sm">{user?.email || 'student@example.com'}</p></div>
           </div>
         </Card>
         <div className="grid grid-cols-2 gap-4">

@@ -4,7 +4,6 @@ import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { Camera, Swords, Layers, Clock, ChevronRight } from 'lucide-react';
-import type { User } from '@supabase/supabase-js';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { StreakBadge } from '@/components/ui/streak-badge';
@@ -12,7 +11,7 @@ import { SubjectBar } from '@/components/ui/subject-bar';
 import { Skeleton } from '@/components/ui/skeleton';
 import { pageAnim, staggerContainer } from '@/lib/animations';
 import { getGreeting } from '@/lib/sm2';
-import { createSupabaseBrowserClient } from '@/lib/supabase/browser';
+import { useAuth } from '@/context/AuthContext';
 import type { Subject } from '@/types/grasp';
 
 const featureCards = [
@@ -30,24 +29,12 @@ const mockSubjectScores: { subject: Subject; percentage: number }[] = [
 ];
 
 export default function HomePage() {
-  const [user, setUser] = useState<User | null>(null);
-  const [loading, setLoading] = useState(true);
+  const { user, loading: authLoading } = useAuth();
   const [streak] = useState(5);
   const [level] = useState(8);
 
-  useEffect(() => {
-    const supabase = createSupabaseBrowserClient();
-    if (!supabase) { setLoading(false); return; }
-    const loadUser = async () => {
-      const { data } = await supabase.auth.getUser();
-      setUser(data.user ?? null);
-      setLoading(false);
-    };
-    void loadUser();
-  }, []);
-
   const greeting = getGreeting();
-  const firstName = user?.email?.split('@')[0] || 'Scholar';
+  const firstName = user?.displayName || user?.email?.split('@')[0] || 'Scholar';
 
   return (
     <motion.div variants={pageAnim} initial="initial" animate="animate" exit="exit" className="min-h-screen bg-[var(--bg-app)] pb-20">
@@ -93,7 +80,7 @@ export default function HomePage() {
           <Link href="/radar" className="text-sm text-[var(--brand)] flex items-center gap-1">See full report <ChevronRight className="h-4 w-4" /></Link>
         </div>
         <Card variant="grasp" className="p-5">
-          {loading ? (
+          {authLoading ? (
             <div className="space-y-3"><Skeleton className="h-6 w-full" /><Skeleton className="h-6 w-full" /><Skeleton className="h-6 w-full" /></div>
           ) : (
             <div className="space-y-4">{mockSubjectScores.map((subject) => <SubjectBar key={subject.subject} subject={subject.subject} percentage={subject.percentage} />)}</div>

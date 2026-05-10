@@ -1,38 +1,38 @@
-"use client";
+'use client';
 
-import { useEffect, useMemo, useState } from "react";
-import Link from "next/link";
-import { useRouter } from "next/navigation";
-import type { User } from "@supabase/supabase-js";
-import { Button } from "@/components/ui/button";
-import { createSupabaseBrowserClient } from "@/lib/supabase/browser";
+import { useEffect, useState } from 'react';
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import type { User } from 'firebase/auth';
+import { onAuthStateChanged } from 'firebase/auth';
+import { auth } from '@/lib/firebase/config';
+import { Button } from '@/components/ui/button';
 
 export function AuthControls() {
   const [user, setUser] = useState<User | null>(null);
-  const supabase = useMemo(() => createSupabaseBrowserClient(), []);
-  const [loading, setLoading] = useState(Boolean(supabase));
+  const [loading, setLoading] = useState(true);
   const router = useRouter();
 
   useEffect(() => {
-    if (!supabase) return;
-    const load = async () => {
-      const { data } = await supabase.auth.getUser();
-      setUser(data.user ?? null);
+    if (!auth) {
       setLoading(false);
-    };
-    void load();
+      return;
+    }
 
-    const { data: listener } = supabase.auth.onAuthStateChange((_event, session) => {
-      setUser(session?.user ?? null);
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      setUser(user);
+      setLoading(false);
     });
-    return () => listener.subscription.unsubscribe();
-  }, [supabase]);
+
+    return () => unsubscribe();
+  }, []);
 
   const signOut = async () => {
-    if (!supabase) return;
-    await supabase.auth.signOut();
+    if (!auth) return;
+    const { signOut } = await import('firebase/auth');
+    await signOut(auth);
     setUser(null);
-    router.refresh();
+    router.push('/');
   };
 
   if (loading) {
@@ -50,7 +50,7 @@ export function AuthControls() {
   return (
     <div className="flex items-center gap-2">
       <Button asChild size="sm" variant="secondary">
-        <Link href="/dashboard">Dashboard</Link>
+        <Link href="/home">Home</Link>
       </Button>
       <Button size="sm" variant="ghost" onClick={signOut}>
         Logout
