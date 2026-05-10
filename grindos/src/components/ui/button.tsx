@@ -2,6 +2,7 @@ import * as React from "react";
 import { Slot } from "@radix-ui/react-slot";
 import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@/lib/utils";
+import { motion } from "framer-motion";
 
 const buttonVariants = cva(
   "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-xl text-sm font-medium transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-400/70 disabled:pointer-events-none disabled:opacity-50 cursor-pointer will-change-transform",
@@ -13,6 +14,10 @@ const buttonVariants = cva(
         secondary:
           "border border-slate-400/25 bg-slate-800/40 px-5 py-3 text-slate-100 shadow-[inset_0_1px_0_rgba(255,255,255,0.08)] hover:-translate-y-0.5 hover:bg-slate-700/40",
         ghost: "text-slate-200 hover:bg-white/10",
+        // Grasp variants
+        primary: "bg-[var(--brand)] text-white hover:bg-[var(--brand-dark)] shadow-md hover:-translate-y-0.5",
+        danger: "bg-[var(--accent-red)] text-white hover:bg-red-700 shadow-md hover:-translate-y-0.5",
+        success: "bg-[var(--accent-green)] text-white hover:bg-green-700 shadow-md hover:-translate-y-0.5",
       },
       size: {
         default: "h-11",

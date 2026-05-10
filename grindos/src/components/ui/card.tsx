@@ -1,18 +1,19 @@
 import * as React from "react";
 import { cn } from "@/lib/utils";
 
-function Card({
-  className,
-  ...props
-}: React.HTMLAttributes<HTMLDivElement>) {
+type CardVariant = 'glass' | 'grasp';
+
+interface CardProps extends React.HTMLAttributes<HTMLDivElement> {
+  variant?: CardVariant;
+}
+
+function Card({ className, variant = 'glass', ...props }: CardProps) {
+  const baseClasses = variant === 'grasp'
+    ? "bg-[var(--bg-card)] rounded-[var(--radius-lg)] border border-transparent shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all duration-200"
+    : "glass rounded-2xl border border-white/12 shadow-[0_10px_28px_rgba(0,0,0,0.34)]";
+
   return (
-    <div
-      className={cn(
-        "glass rounded-2xl border border-white/12 shadow-[0_10px_28px_rgba(0,0,0,0.34)]",
-        className,
-      )}
-      {...props}
-    />
+    <div className={cn(baseClasses, className)} {...props} />
   );
 }
 
