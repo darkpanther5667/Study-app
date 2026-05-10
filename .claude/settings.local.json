@@ -1,0 +1,29 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm install *)",
+      "Bash(npm run *)",
+      "Bash(npx next *)",
+      "Bash(where node *)",
+      "Bash(npm --version)",
+      "Bash(npm config *)",
+      "Bash(npm list *)",
+      "Bash(node node_modules/next/dist/bin/next build)",
+      "Bash(vercel --version)",
+      "Bash(npm i *)",
+      "Bash(npx vercel *)",
+      "Bash(git add *)",
+      "Bash(git reset *)",
+      "Bash(git commit -m ' *)",
+      "Bash(git push *)",
+      "Bash(git pull *)",
+      "Bash(git commit -m 'chore: Add database migration for Grasp tables *)",
+      "Bash(git commit -m 'chore: Remove old dashboard/landing, keep only auth *)",
+      "Bash(git commit -m 'fix: Rename proxy.ts to middleware.ts with proper export *)",
+      "Bash(npm search *)",
+      "Bash(git commit -m 'fix: Remove CSS import warning, use next/font for Google Fonts *)",
+      "Bash(mkdir -p home doubt-snap battle/lobby battle/room/\\\\[roomId\\\\] vault focus radar explore profile)",
+      "Bash(cp \"\\(grasp\\)/battle/room/[roomId]/page.tsx\" battle/room/\\\\[roomId\\\\]/)"
+    ]
+  }
+}
